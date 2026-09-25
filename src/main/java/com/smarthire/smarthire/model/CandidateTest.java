@@ -4,12 +4,13 @@ public class CandidateTest {
 
     public static void main(String[] args) {
 
-        Candidate candidate1 = new Candidate(
-                "Shreya",
-                "shreya@gmail.com",
-                0,
-                500000
-        );
+       Candidate candidate1 = new Candidate(
+        1L,
+        "Shreya",
+        "shreya@gmail.com",
+        0,
+        500000
+);
 
         System.out.println("Name: " + candidate1.getName());
         System.out.println("Email: " + candidate1.getEmail());

@@ -20,6 +20,20 @@ public class CandidateService {
     }
 
     public List<Candidate> getAllCandidates() {
+
         return candidates;
+    }
+
+    public Candidate getCandidateById(Long id) {
+
+        for (Candidate candidate : candidates) {
+
+            if (candidate.getId().equals(id)) {
+
+                return candidate;
+            }
+        }
+
+        return null;
     }
 }
