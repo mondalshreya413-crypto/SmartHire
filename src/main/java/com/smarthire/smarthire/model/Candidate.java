@@ -1,12 +1,24 @@
 package com.smarthire.smarthire.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Candidate {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String email;
     private int experience;
     private double expectedSalary;
+
+    public Candidate() {
+    }
 
     public Candidate(Long id, String name, String email, int experience, double expectedSalary) {
         this.id = id;
