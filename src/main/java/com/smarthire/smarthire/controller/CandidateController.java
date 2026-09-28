@@ -1,7 +1,10 @@
 package com.smarthire.smarthire.controller;
 
+import com.smarthire.smarthire.dto.CandidateRequest;
 import com.smarthire.smarthire.model.Candidate;
 import com.smarthire.smarthire.service.CandidateService;
+
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -21,8 +24,10 @@ public class CandidateController {
     }
 
     @PostMapping("/candidates")
-    public Candidate addCandidate(@RequestBody Candidate candidate) {
-        return candidateService.addCandidate(candidate);
+    public Candidate addCandidate(
+            @Valid @RequestBody CandidateRequest request) {
+
+        return candidateService.addCandidate(request);
     }
 
     @GetMapping("/candidates")

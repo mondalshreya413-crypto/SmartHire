@@ -1,5 +1,6 @@
 package com.smarthire.smarthire.service;
 
+import com.smarthire.smarthire.dto.CandidateRequest;
 import com.smarthire.smarthire.model.Candidate;
 
 import java.util.ArrayList;
@@ -12,7 +13,19 @@ public class CandidateService {
 
     private List<Candidate> candidates = new ArrayList<>();
 
-    public Candidate addCandidate(Candidate candidate) {
+    private Long nextId = 1L;
+
+    public Candidate addCandidate(CandidateRequest request) {
+
+        Candidate candidate = new Candidate(
+                nextId,
+                request.getName(),
+                request.getEmail(),
+                request.getExperience(),
+                request.getExpectedSalary()
+        );
+
+        nextId++;
 
         candidates.add(candidate);
 
@@ -20,7 +33,6 @@ public class CandidateService {
     }
 
     public List<Candidate> getAllCandidates() {
-
         return candidates;
     }
 
@@ -29,7 +41,6 @@ public class CandidateService {
         for (Candidate candidate : candidates) {
 
             if (candidate.getId().equals(id)) {
-
                 return candidate;
             }
         }
