@@ -1,6 +1,7 @@
 package com.smarthire.smarthire.service;
 
 import com.smarthire.smarthire.dto.CandidateRequest;
+import com.smarthire.smarthire.exception.CandidateNotFoundException;
 import com.smarthire.smarthire.model.Candidate;
 import com.smarthire.smarthire.repository.CandidateRepository;
 
@@ -14,6 +15,7 @@ public class CandidateService {
     private final CandidateRepository candidateRepository;
 
     public CandidateService(CandidateRepository candidateRepository) {
+
         this.candidateRepository = candidateRepository;
     }
 
@@ -37,16 +39,22 @@ public class CandidateService {
 
     public Candidate getCandidateById(Long id) {
 
-        return candidateRepository.findById(id).orElse(null);
+        return candidateRepository.findById(id)
+                .orElseThrow(() ->
+                        new CandidateNotFoundException(
+                                "Candidate not found with id: " + id
+                        )
+                );
     }
 
     public Candidate updateCandidate(Long id, CandidateRequest request) {
 
-        Candidate candidate = candidateRepository.findById(id).orElse(null);
-
-        if (candidate == null) {
-            return null;
-        }
+        Candidate candidate = candidateRepository.findById(id)
+                .orElseThrow(() ->
+                        new CandidateNotFoundException(
+                                "Candidate not found with id: " + id
+                        )
+                );
 
         candidate.setName(request.getName());
         candidate.setEmail(request.getEmail());
@@ -57,6 +65,13 @@ public class CandidateService {
     }
 
     public void deleteCandidate(Long id) {
+
+        if (!candidateRepository.existsById(id)) {
+
+            throw new CandidateNotFoundException(
+                    "Candidate not found with id: " + id
+            );
+        }
 
         candidateRepository.deleteById(id);
     }
