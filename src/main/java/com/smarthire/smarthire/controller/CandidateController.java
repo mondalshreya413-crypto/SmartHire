@@ -8,6 +8,9 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -29,6 +32,7 @@ public class CandidateController {
         this.candidateService = candidateService;
     }
 
+    // Add candidate
     @PostMapping("/candidates")
     public ResponseEntity<Candidate> addCandidate(
             @Valid @RequestBody CandidateRequest request) {
@@ -40,11 +44,13 @@ public class CandidateController {
                 .body(candidate);
     }
 
+    // Day 10 - Get candidates with pagination and sorting
     @GetMapping("/candidates")
-    public ResponseEntity<List<Candidate>> getAllCandidates() {
+    public ResponseEntity<Page<Candidate>> getAllCandidates(
+            Pageable pageable) {
 
-        List<Candidate> candidates =
-                candidateService.getAllCandidates();
+        Page<Candidate> candidates =
+                candidateService.getCandidates(pageable);
 
         return ResponseEntity.ok(candidates);
     }
@@ -93,6 +99,7 @@ public class CandidateController {
         return ResponseEntity.ok(candidates);
     }
 
+    // Get candidate by ID
     @GetMapping("/candidates/{id}")
     public ResponseEntity<Candidate> getCandidateById(
             @PathVariable Long id) {
@@ -103,6 +110,7 @@ public class CandidateController {
         return ResponseEntity.ok(candidate);
     }
 
+    // Update candidate
     @PutMapping("/candidates/{id}")
     public ResponseEntity<Candidate> updateCandidate(
             @PathVariable Long id,
@@ -114,6 +122,7 @@ public class CandidateController {
         return ResponseEntity.ok(candidate);
     }
 
+    // Delete candidate
     @DeleteMapping("/candidates/{id}")
     public ResponseEntity<String> deleteCandidate(
             @PathVariable Long id) {

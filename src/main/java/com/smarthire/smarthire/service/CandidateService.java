@@ -7,6 +7,8 @@ import com.smarthire.smarthire.repository.CandidateRepository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +20,7 @@ public class CandidateService {
         this.candidateRepository = candidateRepository;
     }
 
+    // Add candidate
     public Candidate addCandidate(CandidateRequest request) {
 
         Candidate candidate = new Candidate(
@@ -31,8 +34,14 @@ public class CandidateService {
         return candidateRepository.save(candidate);
     }
 
+    // Get all candidates
     public List<Candidate> getAllCandidates() {
         return candidateRepository.findAll();
+    }
+
+    // Day 10 - Pagination and Sorting
+    public Page<Candidate> getCandidates(Pageable pageable) {
+        return candidateRepository.findAll(pageable);
     }
 
     // Day 9 - Search candidate by name
@@ -55,6 +64,7 @@ public class CandidateService {
         return candidateRepository.findByExpectedSalaryLessThanEqual(maxSalary);
     }
 
+    // Get candidate by ID
     public Candidate getCandidateById(Long id) {
 
         return candidateRepository.findById(id)
@@ -65,7 +75,10 @@ public class CandidateService {
                 );
     }
 
-    public Candidate updateCandidate(Long id, CandidateRequest request) {
+    // Update candidate
+    public Candidate updateCandidate(
+            Long id,
+            CandidateRequest request) {
 
         Candidate candidate = candidateRepository.findById(id)
                 .orElseThrow(() ->
@@ -82,6 +95,7 @@ public class CandidateService {
         return candidateRepository.save(candidate);
     }
 
+    // Delete candidate
     public void deleteCandidate(Long id) {
 
         if (!candidateRepository.existsById(id)) {
