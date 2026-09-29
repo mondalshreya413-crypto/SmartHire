@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,37 +28,50 @@ public class CandidateController {
     }
 
     @PostMapping("/candidates")
-    public Candidate addCandidate(
+    public ResponseEntity<Candidate> addCandidate(
             @Valid @RequestBody CandidateRequest request) {
 
-        return candidateService.addCandidate(request);
+        Candidate candidate = candidateService.addCandidate(request);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(candidate);
     }
 
     @GetMapping("/candidates")
-    public List<Candidate> getAllCandidates() {
+    public ResponseEntity<List<Candidate>> getAllCandidates() {
 
-        return candidateService.getAllCandidates();
+        List<Candidate> candidates = candidateService.getAllCandidates();
+
+        return ResponseEntity.ok(candidates);
     }
 
     @GetMapping("/candidates/{id}")
-    public Candidate getCandidateById(@PathVariable Long id) {
+    public ResponseEntity<Candidate> getCandidateById(
+            @PathVariable Long id) {
 
-        return candidateService.getCandidateById(id);
+        Candidate candidate = candidateService.getCandidateById(id);
+
+        return ResponseEntity.ok(candidate);
     }
 
     @PutMapping("/candidates/{id}")
-    public Candidate updateCandidate(
+    public ResponseEntity<Candidate> updateCandidate(
             @PathVariable Long id,
             @Valid @RequestBody CandidateRequest request) {
 
-        return candidateService.updateCandidate(id, request);
+        Candidate candidate =
+                candidateService.updateCandidate(id, request);
+
+        return ResponseEntity.ok(candidate);
     }
 
     @DeleteMapping("/candidates/{id}")
-    public String deleteCandidate(@PathVariable Long id) {
+    public ResponseEntity<String> deleteCandidate(
+            @PathVariable Long id) {
 
         candidateService.deleteCandidate(id);
 
-        return "Candidate deleted successfully";
+        return ResponseEntity.ok("Candidate deleted successfully");
     }
 }
