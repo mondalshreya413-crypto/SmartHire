@@ -10,12 +10,14 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -41,7 +43,52 @@ public class CandidateController {
     @GetMapping("/candidates")
     public ResponseEntity<List<Candidate>> getAllCandidates() {
 
-        List<Candidate> candidates = candidateService.getAllCandidates();
+        List<Candidate> candidates =
+                candidateService.getAllCandidates();
+
+        return ResponseEntity.ok(candidates);
+    }
+
+    // Day 9 - Search candidate by name
+    @GetMapping("/candidates/search")
+    public ResponseEntity<List<Candidate>> searchByName(
+            @RequestParam String name) {
+
+        List<Candidate> candidates =
+                candidateService.searchByName(name);
+
+        return ResponseEntity.ok(candidates);
+    }
+
+    // Day 9 - Search candidate by email
+    @GetMapping("/candidates/search/email")
+    public ResponseEntity<List<Candidate>> searchByEmail(
+            @RequestParam String email) {
+
+        List<Candidate> candidates =
+                candidateService.searchByEmail(email);
+
+        return ResponseEntity.ok(candidates);
+    }
+
+    // Day 9 - Filter candidates by minimum experience
+    @GetMapping("/candidates/filter/experience")
+    public ResponseEntity<List<Candidate>> filterByExperience(
+            @RequestParam int minExperience) {
+
+        List<Candidate> candidates =
+                candidateService.filterByExperience(minExperience);
+
+        return ResponseEntity.ok(candidates);
+    }
+
+    // Day 9 - Filter candidates by maximum salary
+    @GetMapping("/candidates/filter/salary")
+    public ResponseEntity<List<Candidate>> filterBySalary(
+            @RequestParam double maxSalary) {
+
+        List<Candidate> candidates =
+                candidateService.filterBySalary(maxSalary);
 
         return ResponseEntity.ok(candidates);
     }
@@ -50,7 +97,8 @@ public class CandidateController {
     public ResponseEntity<Candidate> getCandidateById(
             @PathVariable Long id) {
 
-        Candidate candidate = candidateService.getCandidateById(id);
+        Candidate candidate =
+                candidateService.getCandidateById(id);
 
         return ResponseEntity.ok(candidate);
     }

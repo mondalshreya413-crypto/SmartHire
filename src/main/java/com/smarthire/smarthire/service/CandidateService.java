@@ -15,7 +15,6 @@ public class CandidateService {
     private final CandidateRepository candidateRepository;
 
     public CandidateService(CandidateRepository candidateRepository) {
-
         this.candidateRepository = candidateRepository;
     }
 
@@ -33,8 +32,27 @@ public class CandidateService {
     }
 
     public List<Candidate> getAllCandidates() {
-
         return candidateRepository.findAll();
+    }
+
+    // Day 9 - Search candidate by name
+    public List<Candidate> searchByName(String name) {
+        return candidateRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    // Day 9 - Search candidate by email
+    public List<Candidate> searchByEmail(String email) {
+        return candidateRepository.findByEmailContainingIgnoreCase(email);
+    }
+
+    // Day 9 - Filter candidates by minimum experience
+    public List<Candidate> filterByExperience(int minExperience) {
+        return candidateRepository.findByExperienceGreaterThanEqual(minExperience);
+    }
+
+    // Day 9 - Filter candidates by maximum salary
+    public List<Candidate> filterBySalary(double maxSalary) {
+        return candidateRepository.findByExpectedSalaryLessThanEqual(maxSalary);
     }
 
     public Candidate getCandidateById(Long id) {
@@ -67,7 +85,6 @@ public class CandidateService {
     public void deleteCandidate(Long id) {
 
         if (!candidateRepository.existsById(id)) {
-
             throw new CandidateNotFoundException(
                     "Candidate not found with id: " + id
             );
