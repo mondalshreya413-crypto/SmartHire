@@ -20,4 +20,15 @@ public class GlobalExceptionHandler {
                 exception.getMessage()
         );
     }
+
+    @ExceptionHandler(JobNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleJobNotFound(
+            JobNotFoundException exception) {
+
+        return Map.of(
+                "message",
+                exception.getMessage()
+        );
+    }
 }
