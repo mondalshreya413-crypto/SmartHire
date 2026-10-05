@@ -18,6 +18,7 @@ public class JobService {
         this.jobRepository = jobRepository;
     }
 
+    // Create Job
     public Job createJob(JobRequest request) {
 
         Job job = new Job(
@@ -33,10 +34,13 @@ public class JobService {
         return jobRepository.save(job);
     }
 
+    // Get All Jobs
     public List<Job> getAllJobs() {
+
         return jobRepository.findAll();
     }
 
+    // Get Job By ID
     public Job getJobById(Long id) {
 
         return jobRepository.findById(id)
@@ -47,6 +51,7 @@ public class JobService {
                 );
     }
 
+    // Update Job
     public Job updateJob(Long id, JobRequest request) {
 
         Job job = jobRepository.findById(id)
@@ -66,6 +71,7 @@ public class JobService {
         return jobRepository.save(job);
     }
 
+    // Delete Job
     public void deleteJob(Long id) {
 
         if (!jobRepository.existsById(id)) {
@@ -76,5 +82,35 @@ public class JobService {
         }
 
         jobRepository.deleteById(id);
+    }
+
+    // Search Job By Title
+    public List<Job> searchByTitle(String title) {
+
+        return jobRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    // Search Job By Company
+    public List<Job> searchByCompany(String company) {
+
+        return jobRepository.findByCompanyContainingIgnoreCase(company);
+    }
+
+    // Search Job By Location
+    public List<Job> searchByLocation(String location) {
+
+        return jobRepository.findByLocationContainingIgnoreCase(location);
+    }
+
+    // Filter Job By Maximum Salary
+    public List<Job> filterBySalary(double maxSalary) {
+
+        return jobRepository.findBySalaryLessThanEqual(maxSalary);
+    }
+
+    // Filter Job By Employment Type
+    public List<Job> filterByEmploymentType(String employmentType) {
+
+        return jobRepository.findByEmploymentTypeIgnoreCase(employmentType);
     }
 }

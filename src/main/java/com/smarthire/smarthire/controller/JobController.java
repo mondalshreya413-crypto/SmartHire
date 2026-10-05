@@ -8,14 +8,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +22,7 @@ public class JobController {
         this.jobService = jobService;
     }
 
+    // Create Job
     @PostMapping
     public ResponseEntity<Job> createJob(
             @Valid @RequestBody JobRequest request) {
@@ -40,6 +34,7 @@ public class JobController {
                 .body(job);
     }
 
+    // Get All Jobs
     @GetMapping
     public ResponseEntity<List<Job>> getAllJobs() {
 
@@ -48,6 +43,7 @@ public class JobController {
         );
     }
 
+    // Get Job By ID
     @GetMapping("/{id}")
     public ResponseEntity<Job> getJobById(
             @PathVariable Long id) {
@@ -57,6 +53,7 @@ public class JobController {
         );
     }
 
+    // Update Job
     @PutMapping("/{id}")
     public ResponseEntity<Job> updateJob(
             @PathVariable Long id,
@@ -67,6 +64,7 @@ public class JobController {
         );
     }
 
+    // Delete Job
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteJob(
             @PathVariable Long id) {
@@ -75,6 +73,56 @@ public class JobController {
 
         return ResponseEntity.ok(
                 "Job deleted successfully"
+        );
+    }
+
+    // Search By Title
+    @GetMapping("/search/title")
+    public ResponseEntity<List<Job>> searchByTitle(
+            @RequestParam String title) {
+
+        return ResponseEntity.ok(
+                jobService.searchByTitle(title)
+        );
+    }
+
+    // Search By Company
+    @GetMapping("/search/company")
+    public ResponseEntity<List<Job>> searchByCompany(
+            @RequestParam String company) {
+
+        return ResponseEntity.ok(
+                jobService.searchByCompany(company)
+        );
+    }
+
+    // Search By Location
+    @GetMapping("/search/location")
+    public ResponseEntity<List<Job>> searchByLocation(
+            @RequestParam String location) {
+
+        return ResponseEntity.ok(
+                jobService.searchByLocation(location)
+        );
+    }
+
+    // Filter By Salary
+    @GetMapping("/filter/salary")
+    public ResponseEntity<List<Job>> filterBySalary(
+            @RequestParam double maxSalary) {
+
+        return ResponseEntity.ok(
+                jobService.filterBySalary(maxSalary)
+        );
+    }
+
+    // Filter By Employment Type
+    @GetMapping("/filter/employment-type")
+    public ResponseEntity<List<Job>> filterByEmploymentType(
+            @RequestParam String employmentType) {
+
+        return ResponseEntity.ok(
+                jobService.filterByEmploymentType(employmentType)
         );
     }
 }
