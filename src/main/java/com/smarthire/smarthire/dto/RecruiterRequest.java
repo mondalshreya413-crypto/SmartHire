@@ -2,9 +2,8 @@ package com.smarthire.smarthire.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
-public class RegisterRequest {
+public class RecruiterRequest {
 
     @NotBlank(message = "Name is required")
     private String name;
@@ -13,16 +12,10 @@ public class RegisterRequest {
     @Email(message = "Email must be valid")
     private String email;
 
-    @NotBlank(message = "Password is required")
-    @Size(
-        min = 6,
-        message = "Password must be at least 6 characters"
-    )
-    private String password;
+    @NotBlank(message = "Company name is required")
+    private String company;
 
-    private String role;
-
-    public RegisterRequest() {
+    public RecruiterRequest() {
     }
 
     public String getName() {
@@ -41,20 +34,11 @@ public class RegisterRequest {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCompany() {
+        return company;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setCompany(String company) {
+        this.company = company;
     }
 }
-

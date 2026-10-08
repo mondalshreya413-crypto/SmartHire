@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -35,16 +36,42 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(
+    public ResponseEntity<Map<String, Object>> login(
             @Valid @RequestBody LoginRequest request) {
 
-        String token = userService.loginUser(
-                request.getEmail(),
-                request.getPassword()
-        );
+        try {
 
-        return ResponseEntity.ok(
-                Map.of("token", token)
-        );
+            String token = userService.loginUser(
+                    request.getEmail(),
+                    request.getPassword()
+            );
+
+            User user = userService.getUserByEmail(
+                    request.getEmail()
+            );
+
+            return ResponseEntity.ok(
+                    Map.of(
+                            "token", token,
+                            "isSucc", true,
+                            "role", user.getRole()
+                    )
+            );
+
+        } catch (RuntimeException exception) {
+
+            exception.printStackTrace();
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(
+                            Map.of(
+                                    "token", "",
+                                    "isSucc", false,
+                                    "message",
+                                    "Invalid email or password"
+                            )
+                    );
+        }
     }
 }

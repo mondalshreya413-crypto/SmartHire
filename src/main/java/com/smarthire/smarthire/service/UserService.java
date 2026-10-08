@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
+
     private final JwtService jwtService;
 
     public UserService(
@@ -26,36 +28,76 @@ public class UserService {
 
     public User registerUser(RegisterRequest request) {
 
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already registered");
+        if (userRepository
+                .findByEmail(request.getEmail())
+                .isPresent()) {
+
+            throw new RuntimeException(
+                    "Email already registered"
+            );
+        }
+
+        String role = request.getRole();
+
+        if (role == null ||
+                (!role.equals("CANDIDATE")
+                && !role.equals("RECRUITER"))) {
+
+            role = "CANDIDATE";
         }
 
         String encodedPassword =
-                passwordEncoder.encode(request.getPassword());
+                passwordEncoder.encode(
+                        request.getPassword()
+                );
 
         User user = new User(
                 null,
                 request.getName(),
                 request.getEmail(),
-                encodedPassword
+                encodedPassword,
+                role
         );
 
         return userRepository.save(user);
     }
 
-    public String loginUser(String email, String password) {
+    public String loginUser(
+            String email,
+            String password) {
 
-        User user = userRepository.findByEmail(email)
+        User user = userRepository
+                .findByEmail(email)
                 .orElseThrow(() ->
-                        new RuntimeException("Invalid email or password"));
+                        new RuntimeException(
+                                "Invalid email or password"
+                        )
+                );
 
         if (!passwordEncoder.matches(
                 password,
                 user.getPassword())) {
 
-            throw new RuntimeException("Invalid email or password");
+            throw new RuntimeException(
+                    "Invalid email or password"
+            );
         }
 
-        return jwtService.generateToken(user.getEmail());
+        return jwtService.generateToken(
+                user.getEmail(),
+                user.getRole()
+        );
+    }
+
+    public User getUserByEmail(String email) {
+
+        return userRepository
+                .findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "User not found: " + email
+                        )
+                );
     }
 }
+

@@ -1,43 +1,34 @@
 package com.smarthire.smarthire.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class User {
+public class Recruiter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-
     private String email;
+    private String company;
 
-    private String role;
-
-    @JsonIgnore
-    private String password;
-
-    public User() {
+    public Recruiter() {
     }
 
-    public User(
+    public Recruiter(
             Long id,
             String name,
             String email,
-            String password,
-            String role) {
+            String company) {
 
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
-        this.role = role;
+        this.company = company;
     }
 
     public Long getId() {
@@ -64,19 +55,11 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCompany() {
+        return company;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setCompany(String company) {
+        this.company = company;
     }
 }
