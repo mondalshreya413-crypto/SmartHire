@@ -102,6 +102,10 @@ SmartHire/
 │   ├── package.json
 │   └── vite.config.js
 │
+├── screenshots/
+│   ├── home.png
+│   └── jobs.png
+│
 ├── pom.xml
 ├── .gitignore
 └── README.md
@@ -168,7 +172,7 @@ Set the required environment variables before running the backend.
 
 ## 🚀 How to Run the Backend
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/mondalshreya413-crypto/SmartHire.git
@@ -177,7 +181,7 @@ cd SmartHire
 
 ### 2. Configure MySQL
 
-Create a MySQL database:
+Create the database:
 
 ```sql
 CREATE DATABASE smarthire_db;
@@ -185,7 +189,7 @@ CREATE DATABASE smarthire_db;
 
 Configure your database credentials using environment variables.
 
-### 3. Set environment variables
+### 3. Set Environment Variables
 
 Windows CMD example:
 
@@ -194,7 +198,7 @@ set DB_PASSWORD=YOUR_DATABASE_PASSWORD
 set JWT_SECRET=YOUR_JWT_SECRET
 ```
 
-### 4. Start the Spring Boot application
+### 4. Start the Spring Boot Application
 
 ```bash
 mvn spring-boot:run
@@ -261,7 +265,19 @@ SmartHire includes:
 * Candidate Dashboard
 * Recruiter Dashboard
 
+## 📸 Screenshots
+
+### Home Page
+
+![SmartHire Home Page](screenshots/home.png)
+
+### Jobs Page
+
+![SmartHire Jobs Page](screenshots/jobs.png)
+
 ## 🔄 Application Flow
+
+### Candidate Flow
 
 ```text
 Candidate
@@ -278,6 +294,8 @@ Apply for Job
    ↓
 Track Application
 ```
+
+### Recruiter Flow
 
 ```text
 Recruiter
