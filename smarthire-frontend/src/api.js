@@ -1,32 +1,34 @@
+
 const API_BASE_URL =
-import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
+  import.meta.env.VITE_API_BASE_URL ||
+  'https://smarthire-backend-5hdc.onrender.com'
 
 export async function apiRequest(endpoint, options = {}) {
-const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token')
 
-const headers = {
-'Content-Type': 'application/json',
-...options.headers,
-}
+  const headers = {
+    'Content-Type': 'application/json',
+    ...options.headers,
+  }
 
-if (token) {
-headers.Authorization = `Bearer ${token}`
-}
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
 
-const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-...options,
-headers,
-})
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    ...options,
+    headers,
+  })
 
-const data = await response.json().catch(() => null)
+  const data = await response.json().catch(() => null)
 
-if (!response.ok) {
-throw new Error(
-data?.message ||
-data?.error ||
-`Request failed with status ${response.status}`
-)
-}
+  if (!response.ok) {
+    throw new Error(
+      data?.message ||
+        data?.error ||
+        `Request failed with status ${response.status}`
+    )
+  }
 
-return data
+  return data
 }
